@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html  xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout/main">
+<head>
+</head>
+<body>
+	 <section class="content-header" layout:fragment="content-header">
+      <h1>
+        HOME
+        <small>ระบบรายงานทะเบียนพัสดุ</small>
+      </h1>
+      <ol class="breadcrumb">
+        <li class="active"><i class="fa fa-home"></i> Home</li>
+      </ol>
+    </section>
+
+	<section class="content" layout:fragment="content" >
+	
+		<div class="row">
+			<div class="col-md-6">
+				<div class="panel panel-info">
+					<div class="panel-heading">
+						<h3 class="panel-title">Reports: ระบบรายงาน</h3>
+					</div>
+						
+					<div class="panel-body">
+						<ul class="list-group menu">
+							 <li class="list-group-item"><i class="fa fa-arrow-circle-right"></i> <a th:href="@{/reports/r01.html}">r01: รายงานจำแนกตามครุภัณฑ์หรือหน่วยงาน</a></li>
+							 
+						</ul>
+					</div>
+				</div>
+				
+			</div>
+			
+			<div class="col-md-6">
+				<div class="panel panel-info">
+					<div class="panel-heading">
+						<h3 class="panel-title">Download: คู่มือ</h3>
+					</div>
+						
+					<div class="panel-body">
+						<ul class="list-group menu">
+							 <li class="list-group-item"><i class="fa fa-arrow-circle-right"></i> <a target="_blank" th:href="@{/static/doc/doc01_status_flow.pdf}">doc01: รหัสสถานะใบลงทะเบียน</a></li>
+						</ul>
+					</div>
+				</div>
+				
+			</div>
+		
+		</div>
+	</section>
+	
+</body>
+</html>
