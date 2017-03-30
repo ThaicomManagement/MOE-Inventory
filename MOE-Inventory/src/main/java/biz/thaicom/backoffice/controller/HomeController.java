@@ -1,11 +1,26 @@
 package biz.thaicom.backoffice.controller;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.jasperreports.JasperReportsPdfView;
+
+import biz.thaicom.backoffice.dao.BackOfficeDao;
+import biz.thaicom.backoffice.reports.ThJasperReportsPdfView;
+import net.sf.jasperreports.engine.JRRewindableDataSource;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+
+
 
 
 
@@ -13,6 +28,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class HomeController {
 
 	public static Logger logger = LoggerFactory.getLogger(HomeController.class);
+	
+	@Autowired
+	private BackOfficeDao backOfficeDao;
+	
+	@Autowired 
+	private ApplicationContext appContext;
 	
 	@RequestMapping("/login") 
 	public String login(Model model) {
@@ -28,9 +49,35 @@ public class HomeController {
 		return "home";
 	}
 	
-	@RequestMapping("/reports/{reportName}") 
-	public String report(@PathVariable String reportName) {
+	@RequestMapping("/pages/{pageName}") 
+	public String report(@PathVariable String pageName) {
 		
-		return "reports/"+reportName;
+		return "pages/"+pageName;
 	}
+	
+	@RequestMapping("/reports/allInv") 
+	public ModelAndView report() {
+		List<Map<String, Object>> list = null;
+		Map<String, Object> model = new HashMap<>();
+		
+		list=backOfficeDao.findInv();
+		
+		JRRewindableDataSource invList = new JRBeanCollectionDataSource(list);
+		
+		model.put("invList",invList);
+	
+		final JasperReportsPdfView view = new ThJasperReportsPdfView();
+	    view.setUrl("classpath:reports/allInv.jrxml");
+	    view.setApplicationContext(appContext);
+	    view.setReportDataKey("invList");
+	    
+	    
+	    
+	    ModelAndView viewReturn = new ModelAndView(view, model);
+	    
+		
+		return viewReturn;
+	}
+	
+	 
 }
