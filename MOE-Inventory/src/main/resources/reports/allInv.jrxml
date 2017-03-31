@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
-<!-- 2017-03-31T00:21:18 -->
+<!-- 2017-03-31T08:49:14 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="allInv" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="223b0273-23df-41a1-be95-cac215863e45">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 	<style name="Table_TH" mode="Opaque" backcolor="#F0F8FF">
@@ -36,6 +36,13 @@
 		</queryString>
 		<field name="INV_NAME" class="java.lang.String"/>
 		<field name="INV_NO" class="java.lang.String"/>
+		<field name="REG_DATE" class="java.lang.String"/>
+		<field name="GENERAL_SPEC" class="java.lang.String"/>
+		<field name="MODEL" class="java.lang.String"/>
+		<field name="BRAND_NAME" class="java.lang.String"/>
+		<field name="INV_USE" class="java.lang.String"/>
+		<field name="REMARKS" class="java.lang.String"/>
+		<field name="PRICE" class="java.math.BigDecimal"/>
 	</subDataset>
 	<parameter name="invList" class="net.sf.jasperreports.engine.JRRewindableDataSource"/>
 	<queryString>
@@ -44,19 +51,13 @@
 	<background>
 		<band splitType="Stretch"/>
 	</background>
-	<title>
-		<band height="79" splitType="Stretch"/>
-	</title>
 	<pageHeader>
-		<band height="35" splitType="Stretch"/>
+		<band height="55" splitType="Stretch"/>
 	</pageHeader>
-	<columnHeader>
-		<band height="61" splitType="Stretch"/>
-	</columnHeader>
 	<detail>
 		<band height="72" splitType="Stretch">
 			<componentElement>
-				<reportElement x="0" y="0" width="290" height="60" uuid="31f2a59d-78cf-45d4-9c17-69758e831340">
+				<reportElement x="0" y="0" width="803" height="70" uuid="31f2a59d-78cf-45d4-9c17-69758e831340">
 					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
 					<property name="com.jaspersoft.studio.table.style.table_header" value="Table_TH"/>
 					<property name="com.jaspersoft.studio.table.style.column_header" value="Table_CH"/>
@@ -66,20 +67,44 @@
 					<datasetRun subDataset="invDataset" uuid="2c425e18-3570-450d-a3f8-0aa96635356b">
 						<dataSourceExpression><![CDATA[$P{invList}]]></dataSourceExpression>
 					</datasetRun>
-					<jr:column width="110" uuid="e6f69234-a765-422e-8332-e4c6945a43c0">
+					<jr:column width="60" uuid="5be285a9-4dca-47ee-b328-12c01fec2191">
 						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column1"/>
-						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
+						<jr:columnHeader style="Table_CH" height="40" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="110" height="30" uuid="e620b80f-761a-4e4a-b5c8-737863de8826"/>
+								<reportElement x="0" y="0" width="60" height="40" uuid="4373d135-5458-41a4-8354-6149d94e34a5"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="TH SarabunPSK" size="14" isBold="true"/>
+								</textElement>
+								<text><![CDATA[วดป. 
+ที่ลงบัญชี]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="30">
+							<textField isStretchWithOverflow="true" pattern="d MMM yyyy">
+								<reportElement x="0" y="0" width="60" height="30" uuid="61a7d568-b6d8-4dd8-98f5-5a30f461ce76"/>
+								<box topPadding="4" leftPadding="0" bottomPadding="4" rightPadding="0"/>
 								<textElement textAlignment="Center">
+									<font fontName="TH SarabunPSK" size="14"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{REG_DATE}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="100" uuid="e6f69234-a765-422e-8332-e4c6945a43c0">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column2"/>
+						<jr:columnHeader style="Table_CH" height="40" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="100" height="40" uuid="e620b80f-761a-4e4a-b5c8-737863de8826"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font fontName="TH SarabunPSK" size="14" isBold="true"/>
 								</textElement>
 								<text><![CDATA[เลขครุภัณฑ์]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
-							<textField>
-								<reportElement x="0" y="0" width="110" height="30" uuid="91c543c6-ca83-4447-bd1b-75dbb282d96e"/>
+							<textField isStretchWithOverflow="true">
+								<reportElement x="0" y="0" width="100" height="30" uuid="91c543c6-ca83-4447-bd1b-75dbb282d96e"/>
+								<box padding="4"/>
 								<textElement>
 									<font fontName="TH SarabunPSK" size="14"/>
 								</textElement>
@@ -87,24 +112,104 @@
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="180" uuid="d40f0b41-5c1f-4936-8019-9b04ea3c4b3f">
-						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column2"/>
-						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
+					<jr:column width="310" uuid="d40f0b41-5c1f-4936-8019-9b04ea3c4b3f">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column3"/>
+						<jr:columnHeader style="Table_CH" height="40" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="180" height="30" uuid="73540be1-7c42-49b6-91bd-65fc3c6b58fe"/>
-								<textElement textAlignment="Center">
+								<reportElement x="0" y="0" width="310" height="40" uuid="73540be1-7c42-49b6-91bd-65fc3c6b58fe"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font fontName="TH SarabunPSK" size="14" isBold="true"/>
 								</textElement>
 								<text><![CDATA[รายละเอียด]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
-							<textField>
-								<reportElement x="0" y="0" width="180" height="30" uuid="3a653a63-1122-4c61-b4c7-b5c0e4ccfef3"/>
+							<textField isStretchWithOverflow="true">
+								<reportElement x="0" y="0" width="310" height="30" uuid="3a653a63-1122-4c61-b4c7-b5c0e4ccfef3"/>
+								<box padding="4"/>
 								<textElement>
 									<font fontName="TH SarabunPSK" size="14"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$F{INV_NAME}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$F{INV_NAME} + ($F{BRAND_NAME}==null?"":"\nยี่ห้อ " + $F{BRAND_NAME} ) + ($F{MODEL}==null?"":" รุ่น "+$F{MODEL}) + ($F{GENERAL_SPEC}==null?"":"\n"+$F{GENERAL_SPEC})]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="70" uuid="2f19e2ba-9e79-40d2-bba8-6dc540367813">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column4"/>
+						<jr:columnHeader style="Table_CH" height="40" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="70" height="40" uuid="19921e65-6f78-49a1-8a04-b30dcd1fe959"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="TH SarabunPSK" size="14" isBold="true"/>
+								</textElement>
+								<text><![CDATA[ราคา]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="30">
+							<textField isStretchWithOverflow="true" pattern="#,###.00##;(#,###.00##-)">
+								<reportElement x="0" y="0" width="70" height="30" uuid="06a5a274-a37d-4b34-9944-4270d651c352"/>
+								<box topPadding="4" leftPadding="4" bottomPadding="4" rightPadding="8"/>
+								<textElement textAlignment="Right">
+									<font fontName="TH SarabunPSK" size="14"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{PRICE}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="60" uuid="0fff89d7-c251-456d-a134-3dec29399f55">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column5"/>
+						<jr:columnHeader style="Table_CH" height="40" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="60" height="40" uuid="ab0fcef2-91ac-4511-9612-9c8256818072"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="TH SarabunPSK" size="14" isBold="true"/>
+								</textElement>
+								<text><![CDATA[วิธีการได้มา]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="30"/>
+					</jr:column>
+					<jr:column width="70" uuid="34384fb5-1644-46f4-924e-cc6d4e3aa0cc">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column6"/>
+						<jr:columnHeader style="Table_CH" height="40" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="70" height="40" uuid="ddbd7284-d2c8-4b48-9c57-77f293fb9687"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="TH SarabunPSK" size="14" isBold="true"/>
+								</textElement>
+								<text><![CDATA[สถานที่ใช้งาน]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="30">
+							<textField isStretchWithOverflow="true">
+								<reportElement x="0" y="0" width="70" height="30" uuid="7032bb21-6352-4c00-9b81-b07e4e16b4b5"/>
+								<box padding="4"/>
+								<textElement textAlignment="Center">
+									<font fontName="TH SarabunPSK" size="14"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{INV_USE}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="133" uuid="fb4589b8-3267-47be-9198-83a109c88d7b">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column7"/>
+						<jr:columnHeader style="Table_CH" height="40" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="133" height="40" uuid="aeb3cba1-4c79-4ce2-b6f9-0c0edaaf543b"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="TH SarabunPSK" size="14" isBold="true"/>
+								</textElement>
+								<text><![CDATA[หมายเหตุ]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="30">
+							<textField isStretchWithOverflow="true">
+								<reportElement x="0" y="0" width="133" height="30" uuid="d687978d-131f-4635-896f-f5f152c9e9d3"/>
+								<box padding="4"/>
+								<textElement>
+									<font fontName="TH SarabunPSK" size="14"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{REMARKS}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -112,13 +217,12 @@
 			</componentElement>
 		</band>
 	</detail>
-	<columnFooter>
-		<band height="45" splitType="Stretch"/>
-	</columnFooter>
 	<pageFooter>
-		<band height="54" splitType="Stretch"/>
+		<band height="21">
+			<staticText>
+				<reportElement x="730" y="6" width="73" height="15" uuid="cee172bc-e50c-4585-8756-96d3fd246329"/>
+				<text><![CDATA[pur_inv_rep9]]></text>
+			</staticText>
+		</band>
 	</pageFooter>
-	<summary>
-		<band height="42" splitType="Stretch"/>
-	</summary>
 </jasperReport>
