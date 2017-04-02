@@ -16,11 +16,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
 		  auth.inMemoryAuthentication().withUser("ram").password("ram123").roles("ADMIN");
 		  auth.inMemoryAuthentication().withUser("ravan").password("ravan123").roles("USER");
-		  auth.inMemoryAuthentication().withUser("kans").password("kans123").roles("USER");
+		  auth.inMemoryAuthentication().withUser("user").password("user").roles("USER");
 	}
 	
 	protected void configure(HttpSecurity http) throws Exception {
 		http
+			.headers().frameOptions().disable()
+			.and()
 			.authorizeRequests()
 				.antMatchers("/static/**").permitAll()
 				.antMatchers("/webjars/**").permitAll()

@@ -95,7 +95,33 @@ public class BackOfficeDaoJdbc implements BackOfficeDao {
 	
 
 	@Override
-	public List<Map<String, Object>> findInv() {
+	public List<Map<String, Object>> findAllOrganization() {
+		String sql1 = ""
+				+ " "
+				+ "	Select inv_Code org_code,	"
+				+ "	Substr(lpad(Org_Name,(level*5)+length(Org_Name),' '),5,200) As Org_name,"
+				+ "       Org_abbr,Org_id"
+				+ "	From  Glb_Organization"
+				+ "	Where Org_flg = '1'"
+				+ "		and inv_code is not null"
+				+ "	Start with Org_Id = 0	"
+				+ "	Connect by prior Org_id = Org_Org_id ";
+		
+		List<Map<String, Object>> returnList;
+		
+		returnList = this.jdbcTemplate.query(
+					sql1,
+					genericRowMapper
+					);
+		
+		
+		return returnList;
+	}
+
+
+
+	@Override
+	public List<Map<String, Object>> findInv(Integer orgId, Integer fiscalYear) {
 		String sql1 = ""
 				+ " SELECT	a.Id As Inv_info_id,a.Price,a.Prod_Sn,a.Inv_Name,"
 				+ "		Datee2std(a.Reg_Date,'DTE','SHORT_MON','FULL_YR','')  Reg_Date,"
@@ -105,22 +131,32 @@ public class BackOfficeDaoJdbc implements BackOfficeDao {
 				+ "		a.Gs_Inv_Subexpt_id As Inv_Parent,a.Fiscal_year ,a.brand_name,"
 				+ "		a.inv_org_no||'-'||a.inv_fyr_no||'-'||a.inv_act_no||'-'||a.inv_typ_no||'-'||a.inv_ord_no Inv_No,a.inv_use"
 				+ " From	Pro_Inv_info a, Glb_Organization o,"
-				+ "		Glb_Inv_Asset b, Glb_Inv_Subexpt e"
+				+ "		Glb_Inv_Asset b, Glb_Inv_Subexpt e ";
+		String where = ""
 				+ " Where a.Gs_Inv_Subexpt_id = e.Inv_Subexpt_Id "
 				+ "		and e.Inv_Asset_id = b.Inv_Asset_id"
 				+ "		and a.Org_Org_id = o.Org_id"
 				+ "		and  a.id not in (select inv_info_id from pro_distribution )"
 				+ "		and  not exists (select * from pro_inv_ret ret where a.id = ret.inv_info_id ) "
 				+ "		and  ((o.inv_code = '200' and (a.id in (select inv_info_id from pro_inv_ret ))) or"
-				+ "			(o.inv_code != '200' and (a.id not in (select inv_info_id from pro_inv_ret )) )) "
+				+ "			(o.inv_code != '200' and (a.id not in (select inv_info_id from pro_inv_ret )) )) ";
+		String order = "" 
 				+ " order by a.reg_date asc, a.inv_org_no||a.inv_fyr_no||a.inv_act_no||a.inv_typ_no||a.inv_ord_no asc";
 				
 		
+		if(orgId != null) {
+			where += " AND o.Org_id = " + orgId;
+		}
+
+		if(fiscalYear != null) {
+			where += " AND o.fiscal_year = " + orgId;
+		}
+
 		
 		List<Map<String, Object>> returnList;
 		
 		returnList = this.jdbcTemplate.query(
-					sql1,
+					sql1+ where + order,
 					genericRowMapper
 					);
 		
