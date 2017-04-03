@@ -14,6 +14,7 @@ import java.util.Set;
 
 import javax.sql.DataSource;
 
+import org.jfree.util.Log;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -119,11 +120,34 @@ public class BackOfficeDaoJdbc implements BackOfficeDao {
 	}
 
 
-
+	@Override
+	public Map<String, String> findObtainMethod() {
+		String sql = "	Select  rv_low_value, rv_meaning"
+					+ "	From cg_ref_codes"  
+					+ "	where rv_domain = 'OBTAIN_METHOD' And Rv_Type = 'PROCURE'";
+		
+		Map<String, String> returnMap = new HashMap<String, String>();
+		List<Map<String, Object>> returnList;
+		
+		returnList = this.jdbcTemplate.query(
+					sql,
+					genericRowMapper
+					);
+		
+		
+		for(Map<String, Object> map: returnList) {
+			returnMap.put((String) map.get("RV_LOW_VALUE"), (String) map.get("RV_MEANING"));
+		}
+		
+		return returnMap;
+	}
+	
 	@Override
 	public List<Map<String, Object>> findInv(Integer orgId, Integer fiscalYear) {
 		String sql1 = ""
 				+ " SELECT	a.Id As Inv_info_id,a.Price,a.Prod_Sn,a.Inv_Name,"
+				+ "		pfix1.pfix_abbr||emp1.emp_name emp_emp_name, "
+				+ "		pfix2.pfix_abbr||emp2.emp_name emp_recv_name, "
 				+ "		Datee2std(a.Reg_Date,'DTE','SHORT_MON','FULL_YR','')  Reg_Date,"
 				+ "		a.General_Spec,a.Model,a.Bgt_Source,a.Vendor_vendor_id,"
 				+ "		a.Doc_No||' '||DateE2T(a.Doc_Date) As Inv_Doc_No,a.Inv_Uom,"
@@ -131,9 +155,17 @@ public class BackOfficeDaoJdbc implements BackOfficeDao {
 				+ "		a.Gs_Inv_Subexpt_id As Inv_Parent,a.Fiscal_year ,a.brand_name,"
 				+ "		a.inv_org_no||'-'||a.inv_fyr_no||'-'||a.inv_act_no||'-'||a.inv_typ_no||'-'||a.inv_ord_no Inv_No,a.inv_use"
 				+ " From	Pro_Inv_info a, Glb_Organization o,"
-				+ "		Glb_Inv_Asset b, Glb_Inv_Subexpt e ";
+				+ "		Glb_Inv_Asset b, Glb_Inv_Subexpt e , pro_inv_as pro_as,"
+				+ "		hr_employee emp1,           hr_prefix   pfix1,"
+				+ "		hr_employee emp2,           hr_prefix   pfix2";
 		String where = ""
 				+ " Where a.Gs_Inv_Subexpt_id = e.Inv_Subexpt_Id "
+				+ "		and a.ID = pro_as.INV_INFO_ID"
+				+ "		and pro_as.EMP_EMP_ID = emp1.EMP_ID"
+				+ "		and emp1.prefix_pfix_id = pfix1.pfix_id"
+				+ "		and pro_as.EMP_RECV_ID = emp2.EMP_ID"
+				+ "		and emp2.prefix_pfix_id = pfix2.pfix_id"
+				
 				+ "		and e.Inv_Asset_id = b.Inv_Asset_id"
 				+ "		and a.Org_Org_id = o.Org_id"
 				+ "		and  a.id not in (select inv_info_id from pro_distribution )"
@@ -149,9 +181,11 @@ public class BackOfficeDaoJdbc implements BackOfficeDao {
 		}
 
 		if(fiscalYear != null) {
-			where += " AND o.fiscal_year = " + orgId;
+			where += " AND a.fiscal_year = " + fiscalYear;
 		}
-
+		
+		logger.debug(sql1 + where + order);
+		
 		
 		List<Map<String, Object>> returnList;
 		

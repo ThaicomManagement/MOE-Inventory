@@ -23,7 +23,9 @@ var SearchView = Backbone.View.extend({
     	e.preventDefault(); //otherwise a normal form submit would occur
     	this.orgId = $("#orgSlt").val();
     	this.fiscalYear = parseInt($("#inputFiscalYear").val());
-    
+    	if(isNaN(this.fiscalYear)) {
+    		this.fiscalYear = null;
+    	}
     	
     	
     	 

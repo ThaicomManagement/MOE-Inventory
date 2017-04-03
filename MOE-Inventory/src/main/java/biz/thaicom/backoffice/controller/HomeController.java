@@ -72,10 +72,14 @@ public class HomeController {
 		Map<String, Object> model = new HashMap<>();
 		
 		list=backOfficeDao.findInv(orgId,fiscalYear);
+		Map<String, String> obtainMethodMap = backOfficeDao.findObtainMethod();
 		
 		JRRewindableDataSource invList = new JRBeanCollectionDataSource(list);
 		
 		model.put("invList",invList);
+		model.put("obtainMethodMap", obtainMethodMap);
+		
+		logger.debug(obtainMethodMap.get("1"));
 	
 		final JasperReportsPdfView view = new ThJasperReportsPdfView();
 	    view.setUrl("classpath:reports/allInv.jrxml");

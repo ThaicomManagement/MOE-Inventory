@@ -9,4 +9,6 @@ public interface BackOfficeDao {
 
 	List<Map<String, Object>> findAllOrganization();
 
+	Map<String, String> findObtainMethod();
+
 }
