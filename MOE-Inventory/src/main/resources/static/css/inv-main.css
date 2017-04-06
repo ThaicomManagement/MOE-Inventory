@@ -1,0 +1,9 @@
+/*!
+ *   Customized CSS
+!*/
+
+@import url('https://fonts.googleapis.com/css?family=Mitr');
+
+.login-logo, .navbar-brand {
+	font-family: 'Mitr', sans-serif;
+}

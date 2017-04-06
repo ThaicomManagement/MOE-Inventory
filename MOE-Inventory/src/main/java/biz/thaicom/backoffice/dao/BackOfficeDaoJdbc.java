@@ -148,19 +148,22 @@ public class BackOfficeDaoJdbc implements BackOfficeDao {
 				+ " SELECT	a.Id As Inv_info_id,a.Price,a.Prod_Sn,a.Inv_Name,"
 				+ "		pfix1.pfix_abbr||emp1.emp_name emp_emp_name, "
 				+ "		pfix2.pfix_abbr||emp2.emp_name emp_recv_name, "
+				+ "		Decode(Company,Null,'','จาก'||Company) vendor_name, "
 				+ "		Datee2std(a.Reg_Date,'DTE','SHORT_MON','FULL_YR','')  Reg_Date,"
 				+ "		a.General_Spec,a.Model,a.Bgt_Source,a.Vendor_vendor_id,"
 				+ "		a.Doc_No||' '||DateE2T(a.Doc_Date) As Inv_Doc_No,a.Inv_Uom,"
 				+ "		a.Remarks,o.Org_Id,o.Org_Name,b.Inv_Asset_id,a.Obtain_Method,"
-				+ "		a.Gs_Inv_Subexpt_id As Inv_Parent,a.Fiscal_year ,a.brand_name,"
+				+ "		a.Gs_Inv_Subexpt_id As Inv_Parent,a.Fiscal_year ,a.brand_name,  b.INV_ASSET_NAME, e.INV_SUBEXPT_NAME, "
 				+ "		a.inv_org_no||'-'||a.inv_fyr_no||'-'||a.inv_act_no||'-'||a.inv_typ_no||'-'||a.inv_ord_no Inv_No,a.inv_use"
 				+ " From	Pro_Inv_info a, Glb_Organization o,"
 				+ "		Glb_Inv_Asset b, Glb_Inv_Subexpt e , pro_inv_as pro_as,"
 				+ "		hr_employee emp1,           hr_prefix   pfix1,"
-				+ "		hr_employee emp2,           hr_prefix   pfix2";
+				+ "		hr_employee emp2,           hr_prefix   pfix2, "
+				+ "		Pro_Vendor vendor ";
 		String where = ""
 				+ " Where a.Gs_Inv_Subexpt_id = e.Inv_Subexpt_Id "
 				+ "		and a.ID = pro_as.INV_INFO_ID"
+				+ "		and a.vendor_vendor_id = vendor.vendor_id"
 				+ "		and pro_as.EMP_EMP_ID = emp1.EMP_ID"
 				+ "		and emp1.prefix_pfix_id = pfix1.pfix_id"
 				+ "		and pro_as.EMP_RECV_ID = emp2.EMP_ID"
@@ -173,10 +176,10 @@ public class BackOfficeDaoJdbc implements BackOfficeDao {
 				+ "		and  ((o.inv_code = '200' and (a.id in (select inv_info_id from pro_inv_ret ))) or"
 				+ "			(o.inv_code != '200' and (a.id not in (select inv_info_id from pro_inv_ret )) )) ";
 		String order = "" 
-				+ " order by a.reg_date asc, a.inv_org_no||a.inv_fyr_no||a.inv_act_no||a.inv_typ_no||a.inv_ord_no asc";
+				+ " order by a.org_org_id,  b.INV_ASSET_NAME, e.INV_SUBEXPT_NAME, a.reg_date asc, a.inv_org_no||a.inv_fyr_no||a.inv_act_no||a.inv_typ_no||a.inv_ord_no asc";
 				
 		
-		if(orgId != null) {
+		if(orgId != null && orgId > 0) {
 			where += " AND o.Org_id = " + orgId;
 		}
 
