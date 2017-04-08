@@ -65,13 +65,14 @@ public class HomeController {
 	@RequestMapping("/reports/allInv") 
 	public ModelAndView report(
 			@RequestParam(required=false) Integer orgId,
-			@RequestParam(required=false) Integer fiscalYear,
+			@RequestParam(required=false) Integer fiscalYearBegin,
+			@RequestParam(required=false) Integer fiscalYearEnd,
 			HttpServletResponse response) {
 		logger.debug("orgId: " + orgId);
 		List<Map<String, Object>> list = null;
 		Map<String, Object> model = new HashMap<>();
 		
-		list=backOfficeDao.findInv(orgId,fiscalYear);
+		list=backOfficeDao.findInv(orgId,fiscalYearBegin, fiscalYearEnd);
 		Map<String, String> obtainMethodMap = backOfficeDao.findObtainMethod();
 		
 		JRRewindableDataSource invList = new JRBeanCollectionDataSource(list);

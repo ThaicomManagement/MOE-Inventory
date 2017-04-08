@@ -143,7 +143,7 @@ public class BackOfficeDaoJdbc implements BackOfficeDao {
 	}
 	
 	@Override
-	public List<Map<String, Object>> findInv(Integer orgId, Integer fiscalYear) {
+	public List<Map<String, Object>> findInv(Integer orgId, Integer fiscalYearBegin, Integer fiscalYearEnd  ) {
 		String sql1 = ""
 				+ " SELECT	a.Id As Inv_info_id,a.Price,a.Prod_Sn,a.Inv_Name,"
 				+ "		pfix1.pfix_abbr||emp1.emp_name emp_emp_name, "
@@ -183,8 +183,12 @@ public class BackOfficeDaoJdbc implements BackOfficeDao {
 			where += " AND o.Org_id = " + orgId;
 		}
 
-		if(fiscalYear != null) {
-			where += " AND a.fiscal_year = " + fiscalYear;
+		if(fiscalYearBegin != null && fiscalYearEnd == null) {
+			where += " AND a.fiscal_year = " + fiscalYearBegin;
+		}
+		
+		if(fiscalYearBegin != null && fiscalYearEnd != null) {
+			where += " AND (a.fiscal_year >= " + fiscalYearBegin + " OR a.fiscal_year <= " + fiscalYearEnd + ") ";
 		}
 		
 		logger.debug(sql1 + where + order);
