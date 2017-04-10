@@ -152,7 +152,7 @@ public class BackOfficeDaoJdbc implements BackOfficeDao {
 				+ "		Datee2std(a.Reg_Date,'DTE','SHORT_MON','FULL_YR','')  Reg_Date,"
 				+ "		a.General_Spec,a.Model,a.Bgt_Source,a.Vendor_vendor_id,"
 				+ "		a.Doc_No||' '||DateE2T(a.Doc_Date) As Inv_Doc_No,a.Inv_Uom,"
-				+ "		a.Remarks,o.Org_Id,o.Org_Name,b.Inv_Asset_id,a.Obtain_Method,"
+				+ "		nvl(a.Remarks, ' ') REMARKS ,o.Org_Id,o.Org_Name,b.Inv_Asset_id,a.Obtain_Method,"
 				+ "		a.Gs_Inv_Subexpt_id As Inv_Parent,a.Fiscal_year ,a.brand_name,  b.INV_ASSET_NAME, e.INV_SUBEXPT_NAME, "
 				+ "		a.inv_org_no||'-'||a.inv_fyr_no||'-'||a.inv_act_no||'-'||a.inv_typ_no||'-'||a.inv_ord_no Inv_No,a.inv_use"
 				+ " From	Pro_Inv_info a, Glb_Organization o,"
@@ -188,7 +188,7 @@ public class BackOfficeDaoJdbc implements BackOfficeDao {
 		}
 		
 		if(fiscalYearBegin != null && fiscalYearEnd != null) {
-			where += " AND (a.fiscal_year >= " + fiscalYearBegin + " OR a.fiscal_year <= " + fiscalYearEnd + ") ";
+			where += " AND (a.fiscal_year >= " + fiscalYearBegin + " AND a.fiscal_year <= " + fiscalYearEnd + ") ";
 		}
 		
 		logger.debug(sql1 + where + order);

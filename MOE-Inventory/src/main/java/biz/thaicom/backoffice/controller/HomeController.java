@@ -69,6 +69,9 @@ public class HomeController {
 			@RequestParam(required=false) Integer fiscalYearEnd,
 			HttpServletResponse response) {
 		logger.debug("orgId: " + orgId);
+		logger.debug("fiscalYearBegin:"+ fiscalYearBegin);
+		logger.debug("fiscalYearEnd:"+ fiscalYearEnd);
+		
 		List<Map<String, Object>> list = null;
 		Map<String, Object> model = new HashMap<>();
 		

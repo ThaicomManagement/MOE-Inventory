@@ -3,6 +3,7 @@ var SearchView = Backbone.View.extend({
     	this.orgId = null;
     	
     	this.orgSltTemplate = Handlebars.compile( $("#orgSltTemplate").html() );
+    	this.loadingTemplate = Handlebars.compile($("#loadingTemplate").html() );
     	
     	$("#orgSlt").html(this.orgSltTemplate(orgs.toJSON()));
     	
@@ -102,7 +103,10 @@ var SearchView = Backbone.View.extend({
     onSubmitSearchForm: function(e) {
     	e.preventDefault(); //otherwise a normal form submit would occur
     	this.orgId = $("#orgSlt").val();
-    	 
+    	$('#errorModal').find('.modal-body').html(this.loadingTemplate());
+    	$('#errorModal').find('.modal-header span').html("Print Dialogue");
+    	$('#errorModal').modal('show');
+    	
     	 $.fileDownload($("#searchForm").prop('action'), {
     	        
     	        httpMethod: "POST",
@@ -110,7 +114,18 @@ var SearchView = Backbone.View.extend({
     	        	orgId: this.orgId,
     	        	fiscalYearBegin: this.fiscalYearBegin,
     	        	fiscalYearEnd: this.fiscalYearEnd,
-    	        }
+    	        },
+    	        successCallback: function (url) {
+    	        	$('#errorModal').modal('hide');
+                    
+                },failCallback: function (responseHtml, url) {
+                	$('#errorModal').find('.modal-header span').html("Error! Please Contact System Administrator.");
+                	
+                	
+                	$('#errorModal').find('.modal-body').html(responseHtml);
+                	$('#errorModal').modal('show');
+                }
+                
     	    });
     	 return false;
     	   

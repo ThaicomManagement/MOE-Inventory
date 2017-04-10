@@ -67,6 +67,13 @@
 	
 	
 	<div layout:fragment="pageScript">
+<script id="loadingTemplate" type="text/x-handlebars-template" th:inline="text">
+	<div style="text-align: center; padding-top: 30px; padding-bottom: 30px;">
+		<img src="/inventory/static/images/loader1.gif"> <h2>Generarting Report. Please Wait...<h2>
+	</div>
+</script>
+	
+	
 <script id="orgSltTemplate" type="text/x-handlebars-template" th:inline="text">
 <option value="0">กรุณาเลือกหน่วยงาน</option>
 {{#each this}}
