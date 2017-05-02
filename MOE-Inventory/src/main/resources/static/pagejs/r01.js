@@ -1,6 +1,7 @@
 var SearchView = Backbone.View.extend({
     initialize: function(options){
     	this.orgId = null;
+    	this.currentRadio = null;
     	
     	this.orgSltTemplate = Handlebars.compile( $("#orgSltTemplate").html() );
     	this.loadingTemplate = Handlebars.compile($("#loadingTemplate").html() );
@@ -16,9 +17,36 @@ var SearchView = Backbone.View.extend({
     	"change #inputFiscalYearBegin" : "onChangeFiscalYearBegin",
     	"change #inputFiscalYearEnd" : "onChangeFiscalYearEnd",
     	
+    	"click input[name='optionsRadios']" : "onChangeOptionRadio",
+    	
     	"submit #searchForm" : "onSubmitSearchForm"
     		
     },
+    onChangeOptionRadio: function(e) {
+    	var radioName=e.currentTarget.name;
+    	var value = $("input[name='"+radioName+"']:checked").val();
+    	
+    	
+    	if(value=="noOption") {
+    		$('span.nameTxt').empty();
+    		this.currentRadio = null;
+    		
+    	} else if(value=="option1") {
+    		this.currentRadio = 'employeeName';
+    		showModal(this.currentRadio);
+    		
+    	} else if(value=="option2") {
+    		this.currentRadio = 'receiverName';
+    		showModal(this.currentRadio);
+    	}
+     	
+    	
+    },
+    
+    showModal(updateEl) {
+    	$('.modal')
+    },
+    
     onChangeFiscalYearBegin: function(e) {
     	var val = $("#inputFiscalYearBegin").val();
     	var isNum = /^\d+$/.test(val);
