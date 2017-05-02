@@ -67,21 +67,33 @@ public class HomeController {
 			@RequestParam(required=false) Integer orgId,
 			@RequestParam(required=false) Integer fiscalYearBegin,
 			@RequestParam(required=false) Integer fiscalYearEnd,
+			@RequestParam(required=false) String reportMode,
+			@RequestParam(required=false) Integer empId,
+			@RequestParam(required=false) String empName,
 			HttpServletResponse response) {
 		logger.debug("orgId: " + orgId);
 		logger.debug("fiscalYearBegin:"+ fiscalYearBegin);
 		logger.debug("fiscalYearEnd:"+ fiscalYearEnd);
+		logger.debug("reportMode:"+ reportMode);
+		logger.debug("empId:"+ empId);
+		logger.debug("empName:"+ empName);
 		
 		List<Map<String, Object>> list = null;
 		Map<String, Object> model = new HashMap<>();
 		
-		list=backOfficeDao.findInv(orgId,fiscalYearBegin, fiscalYearEnd);
+		list=backOfficeDao.findInv(orgId,fiscalYearBegin, fiscalYearEnd, reportMode, empId);
+		
+		
 		Map<String, String> obtainMethodMap = backOfficeDao.findObtainMethod();
 		
 		JRRewindableDataSource invList = new JRBeanCollectionDataSource(list);
 		
 		model.put("invList",invList);
 		model.put("obtainMethodMap", obtainMethodMap);
+		model.put("reportMode", reportMode);
+		model.put("empId", empId);
+		model.put("empName", empName);
+		
 		
 		logger.debug(obtainMethodMap.get("1"));
 	

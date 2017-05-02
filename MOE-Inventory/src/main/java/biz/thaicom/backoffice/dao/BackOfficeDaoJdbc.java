@@ -93,7 +93,26 @@ public class BackOfficeDaoJdbc implements BackOfficeDao {
 		}
 	};
 	
-	
+
+	@Override 
+	public List<Map<String, Object>> findAllEmployee(String name, Boolean isReceiver) {
+			String sql1 = ""
+				+ " "
+				+ "	Select pfix1.PFIX_ABBR, emp1.EMP_NAME, emp1.EMP_ID	"
+				+ "	From  hr_employee emp1, hr_prefix  pfix1"
+				+ "	Where emp1.PREFIX_PFIX_ID = pfix1.PFIX_ID "
+				+ "		and emp1.EMP_NAME like '%" + name + "%'"
+				+ "	order by emp1.emp_name asc	";
+				
+		List<Map<String, Object>> returnList;
+		
+		returnList = this.jdbcTemplate.query(
+					sql1,
+					genericRowMapper
+					);
+		
+		return returnList;
+	}
 
 	@Override
 	public List<Map<String, Object>> findAllOrganization() {
@@ -143,7 +162,14 @@ public class BackOfficeDaoJdbc implements BackOfficeDao {
 	}
 	
 	@Override
-	public List<Map<String, Object>> findInv(Integer orgId, Integer fiscalYearBegin, Integer fiscalYearEnd  ) {
+	public List<Map<String, Object>> findInv(Integer orgId, Integer fiscalYearBegin, Integer fiscalYearEnd, String reportMode, Integer empId  ) {
+		String empWhere = "";
+		if(reportMode.equals("employeeName")) {
+			empWhere = " 	and emp1.emp_id = " + empId + " ";
+		} else if(reportMode.equals("receiverName")) {
+			empWhere = " 	and emp2.emp_id = " + empId + " ";
+		}
+		
 		String sql1 = ""
 				+ " SELECT	a.Id As Inv_info_id,a.Price,a.Prod_Sn,a.Inv_Name,"
 				+ "		pfix1.pfix_abbr||emp1.emp_name emp_emp_name, "
@@ -168,7 +194,7 @@ public class BackOfficeDaoJdbc implements BackOfficeDao {
 				+ "		and emp1.prefix_pfix_id = pfix1.pfix_id"
 				+ "		and pro_as.EMP_RECV_ID = emp2.EMP_ID"
 				+ "		and emp2.prefix_pfix_id = pfix2.pfix_id"
-				
+				+ empWhere 
 				+ "		and e.Inv_Asset_id = b.Inv_Asset_id"
 				+ "		and a.Org_Org_id = o.Org_id"
 				+ "		and  a.id not in (select inv_info_id from pro_distribution )"

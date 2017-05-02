@@ -1,3 +1,66 @@
+var ModalView = Backbone.View.extend({
+	initialize: function(options){
+		this.loadingEmployeeTemplate = Handlebars.compile($("#loadingEmployeeTemplate").html() );
+		this.employeeTableTemplate = Handlebars.compile($("#employeeTableTemplate").html() );
+		this.parentView = options.parentView;
+	},
+	events: {
+		"submit form" : "onFormSubmit",
+		"click input[name='employeeRadio']" : "onChangeOptionRadio",
+		"click #saveBtnModal" : "onClickSaveBtn"
+			
+	},
+	
+	onClickSaveBtn: function(e) {
+		if(this.mode == 'receiver') {
+			$('span#receiverName').html(this.empName);
+		} else if (this.mode == 'employee') {
+			$('span#employeeName').html(this.empName);
+		}
+		
+		this.parentView.empId=this.empId;
+		this.parentView.empName = this.empName;
+		
+		this.$el.modal('hide');
+	},
+	
+	onChangeOptionRadio: function(e) {
+		//remove all tr class
+    	this.$el.find('div#tableResult tr').removeClass("success");
+    	
+		var radioName=e.currentTarget.name;
+    	var value = $("input[name='"+radioName+"']:checked").val();
+    	var empName = $(e.currentTarget).parents('td').next('td').html();
+    	
+    	$(e.currentTarget).parents('tr').addClass('success');
+    	this.empId=value;
+    	this.empName=empName;
+    	
+    	
+	},
+	onFormSubmit: function(e) {
+		e.preventDefault(); //otherwise a normal form submit would occur
+		var name = this.$el.find('#inputName').val();
+		var employees = new DomainObjectCollection();
+		this.$el.find('div#tableResult').html(this.loadingEmployeeTemplate());
+		
+		$.when( employees.fetch({url:"/inventory/JSON/Employee", data: {name : name}, method: 'POST'}) ).done(_.bind(function(x) {
+			this.$el.find('div#tableResult').html(this.employeeTableTemplate(employees.toJSON()));
+			
+			
+		},this));
+		
+	},
+	
+	showModal: function(mode) {
+		this.$el.find('div#tableResult').empty();
+		this.$el.find('#inputName').val('');
+		
+		this.$el.modal({keyboard: false, backdrop: 'static'});
+		this.mode = mode;
+	}
+});
+
 var SearchView = Backbone.View.extend({
     initialize: function(options){
     	this.orgId = null;
@@ -11,6 +74,12 @@ var SearchView = Backbone.View.extend({
     	this.fiscalYearBegin=null;
     	this.fiscalYearEnd=null;
     	
+    	this.modalView = new ModalView({
+			el: "#modal",
+			parentView : this
+			
+		});
+    	
     },
     
     events: {
@@ -22,29 +91,28 @@ var SearchView = Backbone.View.extend({
     	"submit #searchForm" : "onSubmitSearchForm"
     		
     },
+    
+    
     onChangeOptionRadio: function(e) {
     	var radioName=e.currentTarget.name;
     	var value = $("input[name='"+radioName+"']:checked").val();
-    	
+    	$('span.nameTxt').empty();
     	
     	if(value=="noOption") {
-    		$('span.nameTxt').empty();
+    		
     		this.currentRadio = null;
     		
     	} else if(value=="option1") {
     		this.currentRadio = 'employeeName';
-    		showModal(this.currentRadio);
+    		this.modalView.showModal('employee');
     		
     	} else if(value=="option2") {
     		this.currentRadio = 'receiverName';
-    		showModal(this.currentRadio);
+    		this.modalView.showModal('receiver');
+    		
     	}
      	
     	
-    },
-    
-    showModal(updateEl) {
-    	$('.modal')
     },
     
     onChangeFiscalYearBegin: function(e) {
@@ -142,6 +210,9 @@ var SearchView = Backbone.View.extend({
     	        	orgId: this.orgId,
     	        	fiscalYearBegin: this.fiscalYearBegin,
     	        	fiscalYearEnd: this.fiscalYearEnd,
+    	        	reportMode: this.currentRadio,
+    	        	empId: this.empId,
+    	        	empName: this.empName
     	        },
     	        successCallback: function (url) {
     	        	$('#errorModal').modal('hide');
