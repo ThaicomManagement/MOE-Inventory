@@ -8,6 +8,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
 import org.eclipse.jdt.internal.compiler.ast.FalseLiteral;
+import org.jfree.util.Log;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -84,6 +85,8 @@ public class HomeController {
 		list=backOfficeDao.findInv(orgId,fiscalYearBegin, fiscalYearEnd, reportMode, empId);
 		
 		
+	
+		
 		Map<String, String> obtainMethodMap = backOfficeDao.findObtainMethod();
 		
 		JRRewindableDataSource invList = new JRBeanCollectionDataSource(list);
@@ -93,12 +96,30 @@ public class HomeController {
 		model.put("reportMode", reportMode);
 		model.put("empId", empId);
 		model.put("empName", empName);
-		
-		
 		logger.debug(obtainMethodMap.get("1"));
 	
 		final JasperReportsPdfView view = new ThJasperReportsPdfView();
-	    view.setUrl("classpath:reports/allInv.jrxml");
+	    
+		
+		logger.debug(reportMode);
+		if(reportMode.equals("employeeName") || reportMode.equals("receiverName")) {
+			view.setUrl("classpath:reports/employeeReport.jrxml");
+			Map<String, Object> employee = backOfficeDao.findEmployee(empId);	
+			
+			logger.debug("reportMode: employeeName");
+			
+			for (String key : employee.keySet()) {
+				logger.debug("key:" + key + " value: " + employee.get(key));
+			}
+			
+			model.put("PFIX_ABBR", employee.get("PFIX_ABBR"));
+			model.put("POSITION", employee.get("POSITION"));
+			model.put("POSITION_LEVEL", employee.get("POSITION_LEVEL"));
+		} else {
+			view.setUrl("classpath:reports/allInv.jrxml");
+		}
+		
+		
 	    view.setApplicationContext(appContext);
 	    view.setReportDataKey("invList");
 	    

@@ -9,7 +9,7 @@
 	  <section class="content-header" layout:fragment="content-header">
       <h1>
         Reports
-        <small>r01: รายงานจำแนกตามครุภัณฑ์หรือหน่วยงาน</small>
+        <small>r01: รายงานระบบทะเบียนทรัพย์สิน</small>
       </h1>
       <ol class="breadcrumb">
       	<li><a th:href="@{/}"><i class="fa fa-home"></i> Home</a></li>
@@ -83,24 +83,24 @@
 		                
 		                <div class="form-group">
 		                
-		             	<label for="inputFiscalYear" class="col-sm-2 control-label">ระบุชื่อผู้รับ/เบิก</label>
+		             	<label for="inputFiscalYear" class="col-sm-2 control-label"></label>
 		             	<div class="col-sm-10">
 			                <div class="radio">
 								<label>
 								    <input type="radio" name="optionsRadios" id="noOption" value="noOption" checked="checked">
-								   		แสดงรายการทั้งหมด
+								   		รายงานทะเบียนครุภัณฑ์ จำแนกตามรหัสชนิดครุภัณฑ์ หรือหน่วยงาน
 								  </label>
 								</div>
 				                <div class="radio">
 								  <label>
 								    <input type="radio" name="optionsRadios" id="option1" value="option1">
-								     	แสดงรายการตามผู้เบิก <span id="employeeName" class="nameTxt" style="border-bottom: 1px dotted;"></span>
+								     	รายงานทะเบียนครุภัณฑ์ จำแนกตามผู้เบิก <span id="employeeName" class="nameTxt" style="border-bottom: 1px dotted;"></span>
 								  </label>
 								</div>
 								<div class="radio">
 								  <label>
 								    <input type="radio" name="optionsRadios" id="option2" value="option2">
-								    	แสดงรายการตามผู้รับ <span id="receiverName" class="nameTxt" style="border-bottom: 1px dotted;"></span>
+								    	รายงานทะเบียนครุภัณฑ์ จำแนกตามผู้รับ <span id="receiverName" class="nameTxt" style="border-bottom: 1px dotted;"></span>
 								  </label>
 								</div>
 			                </div>

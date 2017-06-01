@@ -11,6 +11,8 @@ public interface BackOfficeDao {
 
 	Map<String, String> findObtainMethod();
 	
+	Map<String, Object> findEmployee(Integer empId);
+	
 	List<Map<String, Object>> findAllEmployee(String name, Boolean isReceiver);
 
 }

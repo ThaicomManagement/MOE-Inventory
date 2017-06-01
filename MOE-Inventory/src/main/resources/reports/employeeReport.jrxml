@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
+<!-- 2017-06-01T15:16:00 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="allInv" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="223b0273-23df-41a1-be95-cac215863e45">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<subDataset name="invDataset" uuid="babf2a62-5487-454f-b458-e0cb8040cacb">
+		<parameter name="obtainMethodMap" class="java.util.Map"/>
+		<queryString>
+			<![CDATA[]]>
+		</queryString>
+		<field name="INV_NAME" class="java.lang.String"/>
+		<field name="INV_NO" class="java.lang.String"/>
+		<field name="REG_DATE" class="java.lang.String"/>
+		<field name="GENERAL_SPEC" class="java.lang.String"/>
+		<field name="MODEL" class="java.lang.String"/>
+		<field name="BRAND_NAME" class="java.lang.String"/>
+		<field name="INV_USE" class="java.lang.String"/>
+		<field name="REMARKS" class="java.lang.String"/>
+		<field name="PRICE" class="java.math.BigDecimal"/>
+		<field name="OBTAIN_METHOD" class="java.lang.String"/>
+		<field name="EMP_EMP_NAME" class="java.lang.String"/>
+		<field name="EMP_RECV_NAME" class="java.lang.String"/>
+		<field name="VENDOR_NAME" class="java.lang.String"/>
+		<field name="ORG_NAME" class="java.lang.String"/>
+	</subDataset>
+	<parameter name="invList" class="net.sf.jasperreports.engine.JRRewindableDataSource"/>
+	<parameter name="obtainMethodMap" class="java.util.Map"/>
+	<parameter name="PFIX_ABBR" class="java.lang.String"/>
+	<parameter name="POSITION" class="java.lang.String"/>
+	<parameter name="POSITION_LEVEL" class="java.lang.String"/>
+	<parameter name="empName" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="ORG_NAME" class="java.lang.String"/>
+	<field name="INV_NAME" class="java.lang.String"/>
+	<field name="INV_NO" class="java.lang.String"/>
+	<field name="REG_DATE" class="java.lang.String"/>
+	<field name="GENERAL_SPEC" class="java.lang.String"/>
+	<field name="MODEL" class="java.lang.String"/>
+	<field name="BRAND_NAME" class="java.lang.String"/>
+	<field name="INV_USE" class="java.lang.String"/>
+	<field name="REMARKS" class="java.lang.String"/>
+	<field name="PRICE" class="java.math.BigDecimal"/>
+	<field name="OBTAIN_METHOD" class="java.lang.String"/>
+	<field name="EMP_EMP_NAME" class="java.lang.String"/>
+	<field name="EMP_RECV_NAME" class="java.lang.String"/>
+	<field name="VENDOR_NAME" class="java.lang.String"/>
+	<field name="INV_ASSET_NAME" class="java.lang.String"/>
+	<field name="INV_SUBEXPT_NAME" class="java.lang.String"/>
+	<field name="FISCAL_YEAR" class="java.math.BigDecimal"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="83" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="803" height="20" uuid="65471bd1-a46e-4da0-a7f7-9920532000a4"/>
+				<textElement textAlignment="Center">
+					<font fontName="TH SarabunPSK" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ทะเบียนครุภัณฑ์]]></text>
+			</staticText>
+			<image>
+				<reportElement x="670" y="9" width="31" height="33" uuid="3ac04202-92f7-4c6f-a0e4-6fe533ff0d11"/>
+				<imageExpression><![CDATA["static/images/moe_logo.png"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="701" y="15" width="100" height="20" uuid="30d5d459-0b4e-4753-9251-1abc6f3a61d2"/>
+				<textElement textAlignment="Left">
+					<font fontName="TH SarabunPSK" size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[สำนักงานปลัดกระทรวงพลังงาน]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="701" y="24" width="100" height="20" uuid="94a1ab12-fec2-4275-afcf-fc8f3ec3adc3"/>
+				<textElement textAlignment="Left">
+					<font fontName="TH SarabunPSK" size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[MINISTRY OF ENERGY]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="660" y="0" width="100" height="30" uuid="63c3a935-2766-41c5-9951-afc1f4c125b6"/>
+				<textElement textAlignment="Right">
+					<font fontName="TH SarabunPSK" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA["หน้าที่ " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="760" y="0" width="40" height="30" uuid="8926e572-8c25-4ec8-affe-909a8f290c5b"/>
+				<textElement textAlignment="Left">
+					<font fontName="TH SarabunPSK" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" / " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="53" width="60" height="30" backcolor="#F0F8FF" uuid="f989f643-499d-442c-9c8e-4b4788b5b01a"/>
+				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[วดป. 
+ที่ลงบัญชี]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="60" y="53" width="89" height="30" backcolor="#F0F8FF" uuid="aa6c3da9-fc76-41a5-b00f-90642ddb2acb"/>
+				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[เลขครุภัณฑ์]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="149" y="53" width="211" height="30" backcolor="#F0F8FF" uuid="c3dfdbbc-5802-4515-be07-755b9dc3f1b8"/>
+				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[รายละเอียด]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="360" y="53" width="69" height="30" backcolor="#F0F8FF" uuid="da9a2058-d2c5-4905-98f7-24c4e76581d3"/>
+				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ราคา]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="429" y="53" width="71" height="30" backcolor="#F0F8FF" uuid="6a2a8bab-4152-4ce9-8537-6042ebbb9069"/>
+				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[วิธีการได้มา]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="500" y="53" width="60" height="30" backcolor="#F0F8FF" uuid="68d90a68-f58c-42ae-91f6-4522e74e8969"/>
+				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[สถานที่ใช้งาน]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="560" y="53" width="241" height="30" backcolor="#F0F8FF" uuid="31e6ad08-3184-497e-9c31-16e83ba19ca9"/>
+				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[หมายเหตุ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="0" y="30" width="160" height="19" uuid="e8f0745b-59b3-4793-a43b-a3b457265514"/>
+				<textElement>
+					<font fontName="TH SarabunPSK" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA["ชื่อ : "+ $P{empName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="370" y="30" width="230" height="19" uuid="9e55eedc-785a-4ea1-b2c2-477e054975c9"/>
+				<textElement>
+					<font fontName="TH SarabunPSK" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA["ตำแหน่ง: "+$P{POSITION} + ($P{POSITION_LEVEL}==null?"":" ระดับ" + $P{POSITION_LEVEL})]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="30" splitType="Stretch">
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="ElementGroupBottom" x="560" y="0" width="241" height="30" uuid="740ce082-a9bd-4cfe-b1ef-a0c6b4e96f1b"/>
+				<box padding="4">
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement>
+					<font fontName="TH SarabunPSK" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{VENDOR_NAME} + $F{REMARKS}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="ElementGroupBottom" x="500" y="0" width="60" height="30" uuid="2f0f151c-b4ca-4b80-a976-a59ac1d6f6df"/>
+				<box padding="4">
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="TH SarabunPSK" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{INV_USE}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="d MMM yyyy">
+				<reportElement stretchType="ElementGroupBottom" x="0" y="0" width="60" height="30" uuid="2e9fdcc6-3c7d-4e6f-8345-c10b1b79aa41"/>
+				<box topPadding="4" leftPadding="0" bottomPadding="4" rightPadding="0">
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="TH SarabunPSK" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{REG_DATE}==null?"-":$F{REG_DATE}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="ElementGroupBottom" x="60" y="0" width="89" height="30" uuid="8176644d-df74-4ea1-bce8-5ce909ea2507"/>
+				<box padding="4">
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement>
+					<font fontName="TH SarabunPSK" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{INV_NO} + " (" + $F{FISCAL_YEAR}+ ")"]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="ElementGroupBottom" x="149" y="0" width="211" height="30" uuid="005e8875-a521-46e0-a821-0ea8bbe3e5f7"/>
+				<box padding="4">
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement>
+					<font fontName="TH SarabunPSK" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{INV_NAME} + ($F{BRAND_NAME}==null?"":"\nยี่ห้อ " + $F{BRAND_NAME} ) + ($F{MODEL}==null?"":" รุ่น "+$F{MODEL}) + ($F{GENERAL_SPEC}==null?"":"\n"+$F{GENERAL_SPEC})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement stretchType="ElementGroupBottom" x="429" y="0" width="71" height="30" uuid="545e1da8-b3f7-4dca-9740-7fdee66c14fd"/>
+				<box padding="4">
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement>
+					<font fontName="TH SarabunPSK" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{OBTAIN_METHOD}==null?"":$P{obtainMethodMap}.get($F{OBTAIN_METHOD})]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,###.00##;(#,###.00##-)">
+				<reportElement stretchType="ElementGroupBottom" x="360" y="0" width="69" height="30" uuid="94e279e4-3ac9-4458-ad57-63aa4e1cf679"/>
+				<box topPadding="4" leftPadding="4" bottomPadding="4" rightPadding="8">
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right">
+					<font fontName="TH SarabunPSK" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PRICE}==null?"-":$F{PRICE}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="21">
+			<staticText>
+				<reportElement x="730" y="6" width="73" height="15" uuid="cee172bc-e50c-4585-8756-96d3fd246329"/>
+				<text><![CDATA[pur_inv_rep2]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+</jasperReport>

@@ -94,6 +94,34 @@ public class BackOfficeDaoJdbc implements BackOfficeDao {
 	};
 	
 
+	@Override
+	public Map<String, Object> findEmployee(Integer empId) {
+		String sql = "SELECT  prex.pfix_abbr PFIX_ABBR, emp.EMP_NAME EMP_NAME, til.TIT_J_NAME POSITION, code.RV_MEANING POSITION_LEVEL "
+				+ "FROM hr_employee emp, hr_title_j til,   HR_PREFIX prex,    CG_REF_CODES code "
+				+ "WHERE  emp.TITLE_J_TIT_J_ID = til.TIT_J_ID    "
+				+ "		and emp.PREFIX_PFIX_ID = prex.PFIX_ID   "
+				+ "		and emp.POS_LEVEL_TYPE = code.RV_LOW_VALUE (+)  "
+				+ "		and code.Rv_type (+) = 'PERSONAL' "
+				+ "		and emp.emp_id=" + empId;
+			
+		List<Map<String, Object>> returnList;
+		Map<String, Object> employee;
+		
+		returnList = this.jdbcTemplate.query(
+					sql,
+					genericRowMapper
+					);
+		
+		
+		if(returnList!=null && returnList.size() == 1) {
+			employee = returnList.get(0);
+		} else {
+			employee = null;
+		}
+				
+		return employee;
+	}
+
 	@Override 
 	public List<Map<String, Object>> findAllEmployee(String name, Boolean isReceiver) {
 			String sql1 = ""
@@ -110,6 +138,7 @@ public class BackOfficeDaoJdbc implements BackOfficeDao {
 					sql1,
 					genericRowMapper
 					);
+		
 		
 		return returnList;
 	}
